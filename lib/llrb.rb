@@ -4,6 +4,10 @@ class LLRB
 
   attr_reader :root
 
+  def put(key, &blk)
+    @root = insert(root, key, &blk)
+  end
+
   def find(key)
     node = root
     while node
@@ -22,15 +26,22 @@ class LLRB
 
   def min
     node = root
-    while node
+    while true
+      break unless node.left
       node = node.left
     end
 
     node ? node.key : nil
   end
 
-  def put(key, value)
-    @root = insert(root, key, value)
+  def max
+    node = root
+    while true
+      break unless node.right
+      node = node.right
+    end
+
+    node ? node.key : nil
   end
 
   def each
@@ -50,17 +61,6 @@ class LLRB
     end
   end
 
-  def levelorder
-    node = root
-    ary = [root]
-    while ary.any?
-      node = ary.shift
-      puts node.key
-      ary.push(node.left) if node.left
-      ary.push(node.right) if node.right
-    end
-  end
-
   private
 
   def compare(key, other)
@@ -69,16 +69,16 @@ class LLRB
     -1
   end
 
-  def insert(node, key, value)
-    return Node.new(key, value, RED) unless node
+  def insert(node, key, &blk)
+    return Node.new(key, yield(nil), RED) unless node
 
     case compare(key, node.key)
     when 0
-      node.value = value
+      node.value = yield(node.value)
     when -1
-      node.left = insert(node.left, key, value)
+      node.left = insert(node.left, key, &blk)
     when 1
-      node.right = insert(node.right, key, value)
+      node.right = insert(node.right, key, &blk)
     end
 
     node = node.rotate_left if red?(node.right)
@@ -132,6 +132,10 @@ class LLRB
       right.color = !right.color
 
       self
+    end
+
+    def to_s
+      "[key: %d, values: %d, color: %s, left: %s, right: %s]" % [key, value.size, color, left.to_s, right.to_s]
     end
   end
 end
