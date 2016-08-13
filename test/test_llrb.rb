@@ -12,6 +12,8 @@ class LLRBTest < Minitest::Test
     tree.put("f", 6)
     tree.put("g", 7)
 
+    tree.levelorder
+
     assert_equal 4, tree.root.value
   end
 end

@@ -33,6 +33,34 @@ class LLRB
     @root = insert(root, key, value)
   end
 
+  def each
+    return enum_for(:each) unless block_given?
+
+    ary = []
+    node = root
+    while ary.any? || node
+      if node
+        ary.push(node)
+        node = node.left
+      else
+        node = ary.pop
+        yield [node.key, node.value]
+        node = node.right
+      end
+    end
+  end
+
+  def levelorder
+    node = root
+    ary = [root]
+    while ary.any?
+      node = ary.shift
+      puts node.key
+      ary.push(node.left) if node.left
+      ary.push(node.right) if node.right
+    end
+  end
+
   private
 
   def compare(key, other)
