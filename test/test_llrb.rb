@@ -1,5 +1,7 @@
-require "minitest/autorun"
-require_relative "../lib/llrb"
+# frozen_string_literal: true
+
+require 'minitest/autorun'
+require_relative '../lib/llrb'
 
 class LLRBTest < Minitest::Test
   def test_insert
@@ -7,11 +9,11 @@ class LLRBTest < Minitest::Test
   end
 
   def test_min
-    assert_equal "a", tree.min
+    assert_equal 'a', tree.min
   end
 
   def test_max
-    assert_equal "g", tree.max
+    assert_equal 'g', tree.max
   end
 
   def test_each
@@ -23,13 +25,13 @@ class LLRBTest < Minitest::Test
 
   def tree
     @tree ||= LLRB.new.tap do |tree|
-      tree.put("a") { 1 }
-      tree.put("b") { 2 }
-      tree.put("c") { 3 }
-      tree.put("d") { 4 }
-      tree.put("e") { 5 }
-      tree.put("f") { 6 }
-      tree.put("g") { 7 }
+      tree.put('a') { 1 }
+      tree.put('b') { 2 }
+      tree.put('c') { 3 }
+      tree.put('d') { 4 }
+      tree.put('e') { 5 }
+      tree.put('f') { 6 }
+      tree.put('g') { 7 }
     end
   end
 end

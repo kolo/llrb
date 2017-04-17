@@ -1,2 +1,6 @@
 AllCops:
   TargetRubyVersion: 2.4.1
+Metrics/MethodLength:
+  Max: 15
+Style/AlignParameters:
+  EnforcedStyle: with_fixed_indentation

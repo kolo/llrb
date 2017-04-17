@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# LLRB is an implementation of left-leaning red-black tree.
 class LLRB
   RED = true
   BLACK = false
@@ -12,7 +15,7 @@ class LLRB
     node = root
     while node
       case compare(key, node.key)
-      when 0 
+      when 0
         return node.value
       when -1
         node = node.left
@@ -21,12 +24,12 @@ class LLRB
       end
     end
 
-    return nil
+    nil
   end
 
   def min
     node = root
-    while true
+    loop do
       break unless node.left
       node = node.left
     end
@@ -36,7 +39,7 @@ class LLRB
 
   def max
     node = root
-    while true
+    loop do
       break unless node.right
       node = node.right
     end
@@ -67,6 +70,9 @@ class LLRB
     key <=> other
   end
 
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/PerceivedComplexity
   def insert(node, key, &blk)
     return Node.new(key, yield(nil), RED) unless node
 
@@ -82,8 +88,8 @@ class LLRB
     node = node.rotate_left if red?(node.right)
     node = node.rotate_right if red?(node.left) && red?(node.left.left)
     node.flip_color if red?(node.left) && red?(node.right)
-   
-    return node
+
+    node
   end
 
   def red?(node)
@@ -91,6 +97,7 @@ class LLRB
     node.color == RED
   end
 
+  # Node presents single node of a tree.
   class Node
     attr_accessor :color, :key, :value, :left, :right
 
@@ -125,7 +132,7 @@ class LLRB
     end
 
     def flip_color
-      @color = !self.color
+      @color = !color
       left.color = !left.color
       right.color = !right.color
 
@@ -133,7 +140,8 @@ class LLRB
     end
 
     def to_s
-      "[key: %d, values: %d, color: %s, left: %s, right: %s]" % [key, value.size, color, left.to_s, right.to_s]
+      format('[key: %d, values: %d, color: %s, left: %s, right: %s]',
+        key, value.size, color, left.to_s, right.to_s)
     end
   end
 end
