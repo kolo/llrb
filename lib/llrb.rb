@@ -64,9 +64,7 @@ class LLRB
   private
 
   def compare(key, other)
-    return 0 if key == other
-    return 1 if key > other
-    -1
+    key <=> other
   end
 
   def insert(node, key, &blk)
